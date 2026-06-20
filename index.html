@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dispositif TSA DPL – Les Makaras</title>
+  <style>
+    :root{
+      --paper:#FAF7F1;--paper-2:#F3EEE3;--surface:#FFFFFF;
+      --ink:#232A28;--ink-2:#4B524D;--muted:#7B776B;
+      --hair:#E7E0D2;--hair-2:#D8CFBC;--frame:#C9B996;
+      --green:#2E6E5E;--green-d:#235647;--green-soft:#E5EFEB;
+      --amber:#BB8430;--amber-soft:#F7EEDC;
+      --slate:#4A5A86;--slate-d:#374569;--slate-soft:#E7EAF2;
+      --terra:#B45F3A;--terra-d:#8c4727;--terra-soft:#F6E9E1;
+      --shadow:0 1px 2px rgba(35,42,40,.05),0 10px 30px rgba(35,42,40,.06);
+      --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+      --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:var(--sans);font-size:16px;line-height:1.55;color:var(--ink);background:linear-gradient(180deg,var(--paper),var(--paper-2));-webkit-font-smoothing:antialiased}
+    strong{color:var(--ink)}
+
+    /* ---------- TOP BAR ---------- */
+    .topbar{position:sticky;top:0;z-index:30;background:rgba(250,247,241,.92);-webkit-backdrop-filter:saturate(1.2) blur(8px);backdrop-filter:saturate(1.2) blur(8px);border-bottom:1px solid var(--hair)}
+    .nav{max-width:980px;margin:auto;display:flex;flex-direction:column;gap:9px;align-items:center;padding:11px 20px 12px}
+    .brand{font-family:var(--serif);font-weight:600;font-size:1.08rem;letter-spacing:.3px;color:var(--green-d);text-align:center}
+    .links{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}
+    .links a{color:var(--ink-2);text-decoration:none;font-weight:500;font-size:.86rem;padding:7px 13px;border-radius:99px;background:var(--green-soft);transition:background .15s,color .15s}
+    .links a:hover{background:var(--green-soft);color:var(--green-d)}
+    .links a.active{background:#c4e0d4;color:var(--green-d);font-weight:700}
+
+    /* ---------- HEADER / BANNER ---------- */
+    header{max-width:980px;margin:24px auto 0;padding:0 20px;text-align:center}
+    .banner{width:100%;max-width:100%;height:auto;display:block;margin:0 auto;border-radius:16px;border:1px solid var(--frame);box-shadow:var(--shadow);background:#fff;object-fit:contain}
+    .intro{max-width:680px;margin:22px auto 0;font-size:1.02rem;color:var(--ink-2);text-align:center}
+    .cta-row{display:flex;gap:11px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+
+    /* ---------- BUTTONS ---------- */
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;border-radius:11px;padding:11px 18px;font-weight:600;font-size:.92rem;text-decoration:none;cursor:pointer;font-family:inherit;transition:transform .04s,box-shadow .15s,background .15s,border-color .15s}
+    .btn:hover{box-shadow:var(--shadow)}
+    .btn:active{transform:translateY(1px)}
+    .btn.primary{background:var(--green);color:#fff}
+    .btn.primary:hover{background:var(--green-d)}
+    .btn.secondary{background:var(--slate);color:#fff}
+    .btn.secondary:hover{background:var(--slate-d)}
+    .btn.light{background:var(--surface);color:var(--green-d);border-color:var(--hair-2)}
+    .btn.light:hover{border-color:var(--green)}
+
+    /* ---------- LAYOUT / SECTIONS ---------- */
+    main{max-width:980px;margin:0 auto;padding:20px 20px 64px}
+    .section{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;margin:30px 0;padding:26px 28px;border-radius:18px;background:var(--surface);border:1px solid var(--hair);box-shadow:var(--shadow);scroll-margin-top:74px}
+    .section.visible{opacity:1;transform:none}
+    .section h2{font-family:var(--serif);font-weight:600;margin:0 0 12px;color:var(--green-d);font-size:clamp(1.45rem,2.6vw,1.85rem);line-height:1.15}
+    .section>p{color:var(--ink-2);font-size:.97rem;margin:0 0 6px}
+    .kicker{display:inline-flex;align-items:center;gap:6px;text-transform:uppercase;letter-spacing:.1em;color:var(--green);font-weight:700;font-size:.74rem;margin-bottom:8px}
+    #indications .kicker{color:var(--amber)}
+    #fonctionnement .kicker{color:var(--slate)}
+    #demande .kicker{color:var(--terra)}
+
+    /* ---------- CARDS / GRIDS ---------- */
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+    .card{background:var(--paper);border:1px solid var(--hair);border-radius:14px;padding:16px 18px}
+    .card h3{font-family:var(--sans);margin:0 0 7px;color:var(--green-d);font-size:1.02rem;font-weight:600}
+    .card p,.card li{font-size:.92rem;color:var(--ink-2)}
+    .diagnostic-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+
+    .pill{display:inline-flex;align-items:center;text-align:center;background:var(--surface);border:1px solid var(--hair-2);color:var(--green-d);border-radius:99px;padding:7px 13px;font-weight:600;font-size:.86rem;margin:3px}
+    .pill-row{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin-top:12px}
+    .center{text-align:center}
+
+    .outcomes-title{font-family:var(--serif);font-weight:600;text-align:center;margin:24px 0 12px;color:var(--green-d);font-size:1.2rem}
+    .outcomes-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .outcome{border-radius:14px;padding:16px;background:var(--paper);border:1px solid var(--hair);border-top:3px solid var(--hair-2);text-align:center}
+    .outcome h3{font-family:var(--sans);margin:0 0 7px;font-size:.98rem;font-weight:600;color:var(--green-d);text-align:center}
+    .outcome p{font-size:.88rem;color:var(--ink-2);margin:0;text-align:left}
+    .outcome.good{border-top-color:var(--green)}
+    .outcome.no{border-top-color:var(--slate)}
+    .outcome.wait{border-top-color:var(--amber)}
+    .diagnostic-grid .card{text-align:center}
+    .q-cards .card{border-top:3px solid var(--amber)}
+
+    /* ---------- LINES OF CARE PAIRS ---------- */
+    .lines-pairs{display:grid;gap:12px;margin:18px auto;max-width:880px}
+    .line-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .line-item{background:var(--surface);border:1px solid var(--hair);border-radius:13px;padding:14px;text-align:center;font-size:.9rem;color:var(--ink-2)}
+    .line-item strong{display:block;color:var(--green-d);font-size:1.02rem;margin-bottom:4px}
+    .line-item.alt{background:var(--slate-soft);border-color:var(--slate-soft)}
+    .line-item.alt strong{color:var(--slate-d)}
+
+    /* ---------- NOTES / CALLOUTS ---------- */
+    .highlight-box{background:var(--green-soft);border:1px solid var(--hair);border-left:4px solid var(--green);border-radius:13px;padding:16px 18px;text-align:left;margin-top:16px;font-size:.95rem;color:var(--ink-2)}
+    .green-note{background:var(--green-soft);border:1px solid var(--hair);border-radius:13px;padding:15px 17px;text-align:left;margin-top:16px;font-size:.92rem;color:var(--ink-2)}
+    .warning{background:var(--amber-soft);border:1px solid var(--hair);border-left:4px solid var(--amber);border-radius:13px;padding:15px 18px;margin-top:16px;font-size:.93rem;color:var(--ink-2)}
+    .warning h3{font-family:var(--sans);margin:0 0 5px;color:var(--amber);font-size:1rem}
+    .danger{background:var(--terra-soft);border:1px solid var(--hair);border-left:4px solid var(--terra);border-radius:13px;padding:15px 18px;margin-top:16px;font-size:.93rem;color:var(--ink-2)}
+    .danger h3{font-family:var(--sans);margin:0 0 5px;color:var(--terra-d);font-size:1.02rem}
+    .danger p{margin:0}
+
+    /* ---------- STEPS ---------- */
+    .steps{counter-reset:step;display:grid;gap:12px}
+    .step{position:relative;padding:15px 16px 15px 60px;background:var(--paper);border:1px solid var(--hair);border-radius:14px;font-size:.93rem;color:var(--ink-2)}
+    .step strong{color:var(--ink)}
+    .step:before{counter-increment:step;content:counter(step);position:absolute;left:15px;top:14px;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--green-soft);color:var(--green-d);font-weight:700;font-size:1.05rem}
+
+    /* ---------- DOWNLOAD BOX ---------- */
+    .download-box{background:linear-gradient(180deg,var(--surface),var(--green-soft));border:1px solid var(--hair-2);border-radius:16px;padding:20px 22px}
+    .download-box h3{font-family:var(--sans);margin:0 0 8px;color:var(--green-d);font-size:1.08rem}
+    .download-box p{font-size:.93rem;color:var(--ink-2)}
+    .support-link-box{text-align:center;margin-top:16px}
+    .small{font-size:.85rem;color:var(--muted)}
+
+    /* ---------- ACCESS BANNER / PAPER NOTE ---------- */
+    .access-banner{display:flex;gap:13px;align-items:flex-start;text-align:left;background:var(--green-soft);border:1px solid var(--hair);border-radius:14px;padding:15px 17px;margin-top:18px;font-size:.93rem;color:var(--ink-2)}
+    .access-banner .lock{font-size:1.35rem;line-height:1.2}
+    .paper-note{margin-top:16px;padding-top:14px;border-top:1px dashed var(--hair-2);text-align:left;font-size:.9rem;color:var(--ink-2)}
+
+    /* ---------- FOOTER ---------- */
+    footer{padding:28px 20px;text-align:center;background:transparent;border-top:1px solid var(--hair);color:var(--muted);font-size:.88rem;margin-top:20px}
+    footer strong{font-family:var(--serif);color:var(--green-d);font-weight:600}
+
+    ul{margin:7px 0 0;padding-left:18px}
+    .card ul li{margin-bottom:5px}
+
+    /* ---------- focus ---------- */
+    a:focus-visible,.btn:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:8px}
+
+    /* ---------- MODAL MOT DE PASSE ---------- */
+    .modal-overlay{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(35,42,40,.45);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+    .modal-overlay[hidden]{display:none}
+    .modal{width:100%;max-width:410px;background:var(--surface);border:1px solid var(--frame);box-shadow:0 18px 50px rgba(35,42,40,.25);border-radius:18px;padding:24px 22px;text-align:center}
+    .modal h3{font-family:var(--serif);margin:0 0 8px;color:var(--green-d);font-size:1.25rem}
+    .pwd-input{width:100%;margin-top:12px;padding:11px 13px;font-size:1rem;border:1px solid var(--hair-2);border-radius:11px;font-family:inherit;background:var(--paper);color:var(--ink)}
+    .pwd-input:focus{border-color:var(--green);outline:none}
+    .pwd-error{color:var(--terra-d);font-weight:600;font-size:.9rem;margin:11px 0 0}
+    .modal-actions{display:flex;gap:9px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+
+    /* ---------- RESPONSIVE ---------- */
+    @media(max-width:820px){
+      .grid,.outcomes-grid,.diagnostic-grid{grid-template-columns:1fr}
+      .nav{flex-direction:column;align-items:stretch;gap:6px;padding:8px 14px}
+      .brand{text-align:center}
+      .links{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;gap:6px;padding-bottom:2px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+      .links::-webkit-scrollbar{display:none}
+      .links a{white-space:nowrap;background:var(--green-soft)}
+      .section{padding:20px}
+      .step{padding-left:56px}
+      .access-banner{flex-direction:column}
+      .line-item{padding:11px 9px;font-size:.8rem}
+      .line-item strong{font-size:.92rem}
+    }
+    @media(prefers-reduced-motion:reduce){.section{opacity:1;transform:none;transition:none}.btn,.links a{transition:none}*{scroll-behavior:auto}}
+
+  </style>
+  <noscript><style>.section{opacity:1;transform:none}</style></noscript>
+</head>
+<body>
+  <div class="topbar"><div class="nav"><div class="brand">LES MAKARAS · TSA DPL</div><nav class="links"><a href="#diagnostic-adulte">Diagnostic adulte</a><a href="#presentation">Le dispositif</a><a href="#indications">Quand le proposer</a><a href="#fonctionnement">Déroulé</a><a href="#demande">Faire une demande</a><a href="#support">Accéder au support</a></nav></div></div>
+  <header>
+    <img class="banner" src="bandeau.png" alt="Unité Mobile Autisme Adulte - Diagnostic TSA de l'adulte - Dispositif de première ligne - Guide d'entretien clinique">
+    <p class="intro"><strong>Un accompagnement structuré pour les médecins de première ligne</strong><br>(psychiatres et généralistes), dans le repérage et le diagnostic de l’autisme adulte sans déficience intellectuelle.</p>
+    <div class="cta-row"><a class="btn primary" href="#demande">Faire une demande</a><a class="btn secondary" href="#support">Accéder au support du DPL</a></div>
+  </header>
+  <main>
+    <section id="diagnostic-adulte" class="section"><div class="kicker">🧭 Rationnel du DPL</div><h2>Le diagnostic de TSA chez l’adulte</h2><p>Le diagnostic de trouble du spectre de l’autisme chez l’adulte s’organise en <strong>lignes de soins</strong>, selon le niveau de complexité de la situation.</p><div class="lines-pairs"><div class="line-pair"><div class="line-item"><strong>1ère ligne</strong>Médecins généralistes, psychiatres libéraux, psychiatres hospitaliers, CMP</div><div class="line-item alt"><strong>Première intention</strong>Repérage, premières évaluations, orientation des situations complexes</div></div><div class="line-pair"><div class="line-item"><strong>2ème ligne</strong>Équipes pluridisciplinaires spécifiquement formées aux TSA, comme l’UMAA Les Makaras</div><div class="line-item alt"><strong>Bilan spécialisé</strong>Évaluations approfondies, avis TSA, soutien clinique ciblé</div></div><div class="line-pair"><div class="line-item"><strong>3ème ligne</strong>Centres Ressources Autisme (CRA)</div><div class="line-item alt"><strong>Expertise complexe</strong>Appui régional ou interrégional pour les situations les plus complexes</div></div></div><div class="highlight-box"><p><strong>Le diagnostic de TSA peut être posé par tout médecin formé, quel que soit son lieu d’exercice.</strong><br>Il n’est pas réservé aux centres experts ni aux spécialistes hospitaliers.</p></div><div class="diagnostic-grid"><div class="card"><h3>En ligne 2 et 3 : des bilans exhaustifs</h3><p>Les centres spécialisés réalisent des bilans pluridisciplinaires approfondis, utiles lorsque la situation est complexe, lorsque les diagnostics différentiels sont nombreux, ou lorsqu’il existe un doute important.</p></div><div class="card"><h3>Les bilans pluridisciplinaires ne sont pas toujours indispensables</h3><p>Comme pour d’autres diagnostics psychiatriques, par exemple la schizophrénie ou le trouble bipolaire, le diagnostic peut reposer sur une évaluation clinique rigoureuse, sans recours systématique à un centre expert.</p></div></div><p class="center" style="margin-top:18px">C’est dans cette logique qu’a été créé le <strong>dispositif TSA DPL</strong> : proposer un appui structuré aux médecins de première ligne lorsque la situation paraît compatible avec un diagnostic de TSA sans déficience intellectuelle.</p></section>
+    <section id="presentation" class="section"><div class="kicker">🧩 Dispositif TSA DPL</div><h2>Qu’est-ce que le dispositif DPL ?</h2><p>Le dispositif TSA DPL, pour <strong>Diagnostic de Première Ligne</strong>, s’adresse aux situations où un trouble du spectre de l’autisme sans déficience intellectuelle est fortement suspecté chez l’adulte.</p><div class="grid"><div class="card"><h3>👥 Pour qui ?</h3><p>Médecins généralistes, psychiatres libéraux et psychiatres hospitaliers.</p></div><div class="card"><h3>🎯 Pourquoi ?</h3><p>Réduire l’errance diagnostique, raccourcir le parcours quand la situation est claire, et réserver les évaluations spécialisées aux situations complexes.</p></div><div class="card"><h3>🤝 Comment ?</h3><p>Un appui méthodologique des Makaras, avec un support structuré et un échange avec le praticien.</p></div></div></section>
+    <section id="indications" class="section"><div class="kicker">🎯 Orientation</div><h2>Quand proposer le DPL ?</h2><p>Le DPL peut être proposé lorsque la demande classique adressée aux Makaras fait apparaître une situation compatible avec une évaluation de première ligne.</p><div class="grid q-cards" style="margin-top:16px"><div class="card"><h3>Suspicion forte</h3><p>Le tableau clinique paraît évocateur, mais le médecin souhaite être accompagné pour confirmer le diagnostic.</p></div><div class="card"><h3>Hypothèse TSA peu probable</h3><p>Le diagnostic de TSA paraît peu probable, mais le praticien souhaite un appui méthodologique structuré et des clés de lecture pour l’éliminer de façon argumentée.</p></div><div class="card"><h3>Compatible avec votre activité</h3><p>Le médecin accepte de compléter les documents, d’échanger avec l’UMAA et de réaliser l’annonce diagnostique.</p></div></div><div class="danger center"><h3>Quand le DPL n’est pas adapté : la forte désirabilité du diagnostic</h3><p>Lorsque le patient semble très attaché à obtenir absolument un diagnostic de TSA, au point que l’évaluation risque d’être biaisée, le DPL n’est généralement pas adapté. Dans ce cas, une évaluation spécialisée est préférable : elle permet une analyse plus approfondie des diagnostics différentiels et des comorbidités. Des outils psychométriques sont alors souvent nécessaires pour répondre à la question.</p></div></section>
+    <section id="fonctionnement" class="section"><div class="kicker">🔄 Parcours</div><h2>Comment se déroule le dispositif ?</h2><p>Le DPL démarre toujours à partir d’une <strong>demande d’évaluation classique adressée aux Makaras</strong>. L’UMAA relit le dossier et décide si la situation paraît compatible avec le DPL.</p><div class="steps"><div class="step"><strong>Réception et relecture du dossier</strong><br>L’UMAA examine la demande, les éléments transmis par le patient et la partie médicale complétée par le médecin.</div><div class="step"><strong>Si la situation paraît indiquée</strong><br>Proposition d’intégrer le dispositif TSA DPL, avec accord du patient et du médecin adresseur.</div><div class="step"><strong>Support structuré puis téléexpertise avec le praticien</strong><br>Le praticien peut compléter un support structuré avant l’échange. Ce support permet de disposer de clés de lecture communes et d’un langage partagé autour du TSA de l’adulte. La téléexpertise se fait ensuite par téléphone ou en visio, pour une durée maximale de <strong>30 minutes</strong>. Elle peut être renouvelée une fois si besoin.</div></div><h3 class="outcomes-title">Issues possibles après l’échange</h3><div class="outcomes-grid"><div class="outcome good"><h3>Diagnostic confirmé</h3><p>Annonce faite par le praticien. Une consultation post-diagnostic à l’UMAA peut être proposée pour l’orientation et l’accompagnement.</p></div><div class="outcome no"><h3>Diagnostic non retenu</h3><p>Annonce faite par le praticien. Le patient est considéré comme non repéré pour un TSA dans ce cadre.</p></div><div class="outcome wait"><h3>Éléments insuffisants</h3><p>Un second entretien ou des outils complémentaires peuvent être proposés pour affiner l’analyse.</p></div><div class="outcome wait"><h3>Situation trop complexe</h3><p>Le patient reste sur la file d’attente initiale pour une évaluation spécialisée, sans perdre sa place.</p></div></div><div class="support-link-box"><a class="btn light" href="#support">Accéder au support du DPL</a></div></section>
+    <section id="demande" class="section"><div class="kicker">📋 Première étape</div><h2>Comment faire une demande ?</h2><p>La demande se fait selon la procédure habituelle d’évaluation diagnostique aux Makaras.</p><div class="steps"><div class="step"><strong>Demander le questionnaire de demande d’évaluation pluridisciplinaire</strong><br>Il s’agit du questionnaire utilisé pour toute demande de bilan pluridisciplinaire aux Makaras.</div><div class="step"><strong>Compléter les deux parties obligatoires</strong><br>Le questionnaire comprend une partie individuelle à compléter par le patient, et une partie médicale à compléter par le médecin adresseur. Les deux parties sont nécessaires pour étudier la demande.</div><div class="step"><strong>Joindre les pièces nécessaires</strong><br>Carte d’identité, carte Vitale, coordonnées complètes, et tout document ou bilan antérieur utile pour l’évaluation. Les pièces peuvent être envoyées par le patient lui-même.</div><div class="step"><strong>Envoyer le dossier</strong><br>Le dossier complet est à envoyer à <strong>UMAA@ch-valvert.fr</strong>.</div></div><div class="download-box center" style="margin-top:22px"><h3>📄 Télécharger le questionnaire de demande d’évaluation aux Makaras</h3><a class="btn primary" href="questionnaire-makaras.docx" download>Télécharger le questionnaire (.docx)</a></div></section>
+    <section id="support" class="section center"><div class="kicker">🔐 Accès réservé · après validation</div><h2>Accéder au support du DPL</h2><p>Le support n’est utilisable que lorsque l’indication du DPL a été retenue par l’UMAA. Il sert à structurer les entretiens cliniques puis à préparer la téléexpertise avec l’équipe de coordination.</p>
+      <div class="access-banner"><div class="lock">🔒</div><div><strong>Comment obtenir l’accès ?</strong><br>Le téléchargement est protégé par un mot de passe. Ce mot de passe vous est communiqué par l’équipe de l’UMAA <strong>après étude de votre demande et validation de l’indication du dispositif</strong>. Sans cette validation, le support ne peut pas être utilisé.</div></div>
+
+      <h3 class="outcomes-title">À quoi sert ce support ?</h3>
+      <div class="grid" style="text-align:left">
+        <div class="card"><h3>🧠 Un appui, pas un test</h3><p>C’est un <strong>appui au raisonnement clinique</strong> : aucun outil ni score ne pose à lui seul le diagnostic. Il aide à objectiver, lors d’entretiens structurés, les particularités compatibles avec un TSA sans déficience intellectuelle chez l’adulte, en cherchant à limiter les faux positifs.</p></div>
+        <div class="card"><h3>🧱 De quoi est-il composé ?</h3><ul><li>Un préambule <strong>« Drapeaux rouges »</strong> : signes évocateurs, histoire clinique, profils féminins, critères de complexité et pièges à éviter.</li><li><strong>Partie 1 — Exploration clinique guidée</strong> : 9 thématiques liées aux critères du TSA.</li><li><strong>Partie 2 — Entretien avec un proche (ASDI, pour <i>Asperger Syndrome Diagnostic Interview</i>)</strong> : éléments développementaux recueillis auprès d’un tiers. L’entretien direct avec le proche n’est pas obligatoire — même s’il reste préférable : le questionnaire peut aussi lui être transmis par l’intermédiaire du patient.</li><li>Sections complémentaires : <strong>grille d’observation</strong>, <strong>lecture illustrée des critères DSM-5</strong> et <strong>diagnostics différentiels et comorbidités</strong>.</li></ul></div>
+        <div class="card"><h3>⏱️ Combien de temps ?</h3><p>L’exploration clinique se déroule en général sur <strong>2 consultations d’environ 30 minutes</strong> (parfois 3). Elle s’appuie sur la connaissance que le praticien a déjà du patient et sur un échange aussi naturel que possible. L’entretien avec un proche s’ajoute dès qu’un proche est disponible.</p></div>
+      </div>
+
+      <div class="download-box"><h3>💻 Support interactif — à utiliser sur ordinateur</h3><p>Une page web à ouvrir dans le navigateur de l’ordinateur, qui fonctionne <strong>en local, sans connexion internet</strong>. Ce support interactif vous permet de compléter, au fil des séances, les dossiers de <strong>plusieurs patients en parallèle</strong>. Il génère un PDF de synthèse et permet d’envoyer les réponses à l’équipe.</p><div class="support-link-box"><button class="btn secondary" type="button" id="dpl-download-btn">🔒 Télécharger le support TSA-DPL</button><p class="small" style="margin-top:8px">Mot de passe requis</p></div><div class="paper-note"><strong>🖨️ Une version papier (vierge) existe également.</strong> Il s’agit du support clinique à imprimer, pour les praticiens qui préfèrent le compléter à la main pendant la consultation plutôt que de saisir directement sur l’ordinateur avec le patient. Elle est disponible au format PDF ou Word depuis le support interactif, ou auprès de l’UMAA.</div></div>
+
+
+      <h4 class="outcomes-title" style="font-size:1.2rem;margin-bottom:6px">Mode d’emploi du support interactif</h4>
+      <div class="steps" style="margin-top:8px;text-align:left">
+        <div class="step"><strong>Télécharger le support</strong><br>Saisissez le mot de passe communiqué par l’UMAA, puis enregistrez le fichier sur votre ordinateur.</div>
+        <div class="step"><strong>Ouvrir avec le bon navigateur</strong><br>Utilisez de préférence <strong>Google Chrome</strong> ou <strong>Microsoft Edge</strong>, qui permettent d’enregistrer directement dans votre fichier de sauvegarde. Évitez Internet Explorer.</div>
+        <div class="step"><strong>Choisir un fichier de sauvegarde</strong><br>À la première ouverture, le support vous invite à choisir un fichier de sauvegarde (« .json ») sur votre ordinateur. Vos dossiers y sont conservés : ils vivent sur votre poste, dans un fichier que vous maîtrisez entièrement, sans aucun serveur.</div>
+        <div class="step"><strong>Enregistrer votre progression au fil de l’eau</strong><br>Pendant la consultation, cliquez régulièrement sur <strong>« 💾 Enregistrer la progression »</strong> pour sauvegarder vos dossiers dans ce fichier.</div>
+        <div class="step"><strong>Reprendre un dossier à la réouverture</strong><br>À la réouverture du support, cliquez sur <strong>« 📂 Restaurer une sauvegarde »</strong> et sélectionnez votre fichier « .json » pour retrouver vos dossiers et reprendre là où vous en étiez — y compris sur un autre ordinateur.</div>
+      </div>
+
+      <div class="warning center"><h3>Point important</h3><p>Le fichier contient des données cliniques. Il doit rester sur un ordinateur sécurisé. Aucune donnée n’est stockée sur internet : les informations restent localement sur l’ordinateur où le fichier est utilisé.</p></div>
+    </section>
+  </main>
+  <footer><strong>LES MAKARAS – Unité Mobile Autisme Adulte</strong><br>04.91.87.68.73 · 78 boulevard des Libérateurs, 13011 Marseille · UMAA@ch-valvert.fr</footer>
+
+  <!-- Fenêtre mot de passe -->
+  <div class="modal-overlay" id="pwd-modal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="pwd-title" aria-describedby="pwd-desc">
+      <h3 id="pwd-title">Accès protégé</h3>
+      <p id="pwd-desc" class="small">Saisissez le mot de passe communiqué par l’équipe de l’UMAA après validation de l’indication du DPL.</p>
+      <input type="text" id="pwd-input" class="pwd-input" placeholder="Mot de passe" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Mot de passe">
+      <p class="pwd-error" id="pwd-error" role="alert" hidden>Mot de passe incorrect. Vérifiez auprès de l’UMAA.</p>
+      <div class="modal-actions">
+        <button class="btn light" type="button" id="pwd-cancel">Annuler</button>
+        <button class="btn primary" type="button" id="pwd-submit">Valider et télécharger</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* Révélation des sections au défilement */
+    const obs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.12});
+    document.querySelectorAll('.section').forEach(s=>obs.observe(s));
+
+    /* Surlignage du lien de navigation actif (scroll-spy) */
+    (function(){
+      const links=[...document.querySelectorAll('.links a')];
+      const map={};links.forEach(a=>map[a.getAttribute('href').slice(1)]=a);
+      const spy=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.classList.remove('active'));const a=map[e.target.id];if(a)a.classList.add('active');}})},{rootMargin:'-45% 0px -50% 0px'});
+      document.querySelectorAll('main section[id]').forEach(s=>spy.observe(s));
+    })();
+
+    /* Téléchargement du support protégé par mot de passe */
+    (function(){
+      const PASSWORD="MakarasDPL";
+      const FILE="TSA-DPL-support-V10.html";
+      const modal=document.getElementById('pwd-modal');
+      const input=document.getElementById('pwd-input');
+      const err=document.getElementById('pwd-error');
+      const openBtn=document.getElementById('dpl-download-btn');
+      const cancel=document.getElementById('pwd-cancel');
+      const submit=document.getElementById('pwd-submit');
+      let lastFocus=null;
+      function open(){lastFocus=document.activeElement;modal.hidden=false;err.hidden=true;input.value='';setTimeout(()=>input.focus(),30);document.addEventListener('keydown',onKey);}
+      function close(){modal.hidden=true;document.removeEventListener('keydown',onKey);if(lastFocus&&lastFocus.focus)lastFocus.focus();}
+      function onKey(e){if(e.key==='Escape')close();else if(e.key==='Enter'&&document.activeElement===input){e.preventDefault();check();}}
+      function download(){const a=document.createElement('a');a.href=FILE;a.setAttribute('download','');document.body.appendChild(a);a.click();a.remove();}
+      function check(){if(input.value===PASSWORD){close();download();}else{err.hidden=false;input.focus();input.select();}}
+      if(openBtn)openBtn.addEventListener('click',open);
+      if(cancel)cancel.addEventListener('click',close);
+      if(submit)submit.addEventListener('click',check);
+      if(modal)modal.addEventListener('click',e=>{if(e.target===modal)close();});
+    })();
+  </script>
+</body>
+</html>
